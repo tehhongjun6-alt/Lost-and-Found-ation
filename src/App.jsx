@@ -4,6 +4,7 @@ import ItemCard from './ItemCard.jsx'
 
 function App() {
   const [query, setQuery] = useState('')
+  const [hideClaimed, setHideClaimed] = useState(false)
 
   return (
     <div className="site">
@@ -51,7 +52,6 @@ function App() {
 
             <span className="records-badge">LF / 26</span>
           </div>
-
           <div className="toolbar">
             <input
               type="search"
@@ -60,8 +60,16 @@ function App() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
-          </div>
 
+            <label>
+              <input
+                type="checkbox"
+                checked={hideClaimed}
+                onChange={(event) => setHideClaimed(event.target.checked)}
+              />
+              Hide claimed
+            </label>
+          </div>
           <div className="list-head" aria-hidden="true">
             <span>No.</span>
             <span>Item / place</span>
@@ -72,7 +80,8 @@ function App() {
           <div className="item-list">
             {items
               .filter((item) =>
-                item.name.toLowerCase().includes(query.toLowerCase())
+                item.name.toLowerCase().includes(query.toLowerCase()) &&
+                (!hideClaimed || item.status !== 'claimed')
               )
               .map((item) => (
                 <ItemCard key={item.id} item={item} />
