@@ -56,7 +56,7 @@ function App() {
             <input
               type="search"
               aria-label="Search items"
-              placeholder="Search"
+              placeholder="Search by item name"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -71,7 +71,9 @@ function App() {
 
           <div className="item-list">
             {items
-              .filter((item) => item.name.includes(query))
+              .filter((item) =>
+                item.name.toLowerCase().includes(query.toLowerCase())
+              )
               .map((item) => (
                 <ItemCard key={item.id} item={item} />
               ))}
